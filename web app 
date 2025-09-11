@@ -1,0 +1,240 @@
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+} from "react-native";
+import { Picker } from "@react-native-picker/picker";
+
+export default function AdminAuthScreen() {
+  const [isRegistering, setIsRegistering] = useState(true);
+  const [department, setDepartment] = useState("");
+  const [deptId, setDeptId] = useState("");
+  const [regPassword, setRegPassword] = useState("");
+  const [recheckPassword, setRecheckPassword] = useState("");
+  const [loginDeptId, setLoginDeptId] = useState("");
+  const [adminId, setAdminId] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+
+  const handleRegister = () => {
+    console.log("Admin registration successful!");
+    console.log("Department:", department);
+    console.log("Department ID:", deptId);
+  };
+
+  const handleLogin = () => {
+    console.log("Admin login attempted!");
+    console.log("Department ID:", loginDeptId);
+    console.log("Admin ID:", adminId);
+  };
+
+  return (
+    <SafeAreaView style={styles.safe}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.formCard}>
+          {/* Toggle Buttons */}
+          <View style={styles.formSelection}>
+            <TouchableOpacity
+              style={[styles.toggleBtn, isRegistering && styles.activeBtn]}
+              onPress={() => setIsRegistering(true)}
+            >
+              <Text style={styles.toggleText}>Register</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.toggleBtn, !isRegistering && styles.activeBtn]}
+              onPress={() => setIsRegistering(false)}
+            >
+              <Text style={styles.toggleText}>Login</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Registration Form */}
+          {isRegistering && (
+            <View>
+              <Text style={styles.formTitle}>Admin Registration</Text>
+              <View style={styles.formGroup}>
+                <Text style={styles.label}>Department</Text>
+                <View style={styles.pickerWrapper}>
+                  <Picker
+                    selectedValue={department}
+                    onValueChange={(value) => setDepartment(value)}
+                    style={styles.picker}
+                  >
+                    <Picker.Item label="Select a department" value="" />
+                    <Picker.Item label="Police" value="POLICE" />
+                    <Picker.Item label="Tourist Authority" value="TOUR_AUTHORITY" />
+                    <Picker.Item label="Health Center" value="HEALTH_CENTER" />
+                    <Picker.Item label="Controllers" value="CONTROLLERS" />
+                  </Picker>
+                </View>
+              </View>
+              <View style={styles.formGroup}>
+                <Text style={styles.label}>Department ID</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter Department ID"
+                  value={deptId}
+                  onChangeText={setDeptId}
+                />
+              </View>
+              <View style={styles.formGroup}>
+                <Text style={styles.label}>Create Password</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Create Password"
+                  secureTextEntry
+                  value={regPassword}
+                  onChangeText={setRegPassword}
+                />
+              </View>
+              <View style={styles.formGroup}>
+                <Text style={styles.label}>Recheck Password</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Recheck Password"
+                  secureTextEntry
+                  value={recheckPassword}
+                  onChangeText={setRecheckPassword}
+                />
+              </View>
+              <TouchableOpacity style={styles.btn} onPress={handleRegister}>
+                <Text style={styles.btnText}>Register</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+
+          {/* Login Form */}
+          {!isRegistering && (
+            <View>
+              <Text style={styles.formTitle}>Admin Login</Text>
+              <View style={styles.formGroup}>
+                <Text style={styles.label}>Department ID</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter Department ID"
+                  value={loginDeptId}
+                  onChangeText={setLoginDeptId}
+                />
+              </View>
+              <View style={styles.formGroup}>
+                <Text style={styles.label}>Admin ID</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter Admin ID"
+                  value={adminId}
+                  onChangeText={setAdminId}
+                />
+              </View>
+              <View style={styles.formGroup}>
+                <Text style={styles.label}>Password</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter Password"
+                  secureTextEntry
+                  value={loginPassword}
+                  onChangeText={setLoginPassword}
+                />
+              </View>
+              <TouchableOpacity style={styles.btn} onPress={handleLogin}>
+                <Text style={styles.btnText}>Login</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  safe: {
+    flex: 1,
+    backgroundColor: "#f0f2f5",
+  },
+  container: {
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  formCard: {
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    padding: 30,
+    width: "100%",
+    maxWidth: 400,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  formSelection: {
+    flexDirection: "row",
+    backgroundColor: "#f0f0f0",
+    borderRadius: 8,
+    marginBottom: 20,
+  },
+  toggleBtn: {
+    flex: 1,
+    paddingVertical: 12,
+    alignItems: "center",
+    borderRadius: 8,
+  },
+  activeBtn: {
+    backgroundColor: "#fff",
+    elevation: 2,
+  },
+  toggleText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#555",
+  },
+  formTitle: {
+    fontSize: 26,
+    fontWeight: "600",
+    textAlign: "center",
+    marginBottom: 20,
+    color: "#2c3e50",
+  },
+  formGroup: {
+    marginBottom: 15,
+  },
+  label: {
+    marginBottom: 6,
+    color: "#555",
+    fontWeight: "500",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    borderRadius: 8,
+    padding: 12,
+    backgroundColor: "#f9f9f9",
+  },
+  pickerWrapper: {
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    borderRadius: 8,
+    backgroundColor: "#f9f9f9",
+  },
+  picker: {
+    height: 50,
+  },
+  btn: {
+    backgroundColor: "#28a745",
+    padding: 14,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 10,
+  },
+  btnText: {
+    color: "#fff",
+    fontWeight: "600",
+    fontSize: 16,
+  },
+});
